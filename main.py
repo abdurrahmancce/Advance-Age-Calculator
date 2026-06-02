@@ -1,10 +1,3 @@
-"""
-╔══════════════════════════════════════════════════════════════╗
-║           🎂  Age Calculator - GUI Version (Tkinter)  🎂    ║
-╚══════════════════════════════════════════════════════════════╝
-Run: python age_calculator_gui.py
-"""
-
 import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
 from datetime import datetime, date
