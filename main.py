@@ -4,9 +4,8 @@ from datetime import datetime, date
 import os
 
 
-# ──────────────────────────────────────────────
 #  CONSTANTS & CONFIG
-# ──────────────────────────────────────────────
+
 HISTORY_FILE = "age_history.txt"
 
 COLORS = {
@@ -50,9 +49,7 @@ ZODIAC_SIGNS = [
 ]
 
 
-# ──────────────────────────────────────────────
 #  CALCULATION LOGIC (same as CLI version)
-# ──────────────────────────────────────────────
 
 def calculate_age_years(dob: date, today: date) -> int:
     years = today.year - dob.year
@@ -95,9 +92,7 @@ def get_zodiac_sign(dob: date):
     return "Unknown", "?"
 
 
-# ──────────────────────────────────────────────
 #  GUI APPLICATION
-# ──────────────────────────────────────────────
 
 class AgeCalculatorApp:
     def __init__(self, root: tk.Tk):
@@ -106,7 +101,7 @@ class AgeCalculatorApp:
         self._build_ui()
         self._start_clock()
 
-    # ── Window Setup ─────────────────────────────────────────
+    #  Window Setup 
 
     def _configure_root(self):
         self.root.title("🎂 Age Calculator")
@@ -120,7 +115,7 @@ class AgeCalculatorApp:
         y = (self.root.winfo_screenheight() - 720) // 2
         self.root.geometry(f"+{x}+{y}")
 
-    # ── UI Construction ───────────────────────────────────────
+    #  UI Construction 
 
     def _build_ui(self):
         # ── Header ──
@@ -136,7 +131,8 @@ class AgeCalculatorApp:
                  font=FONTS["small"], bg=COLORS["accent"],
                  fg="#C7D2FE").pack(pady=(2, 0))
 
-        # ── Notebook (tabs) ──
+        #  Notebook (tabs) 
+        
         style = ttk.Style()
         style.theme_use("clam")
         style.configure("TNotebook",
@@ -163,7 +159,7 @@ class AgeCalculatorApp:
         self._build_calculator_tab()
         self._build_history_tab()
 
-    # ── Calculator Tab ────────────────────────────────────────
+    #  Calculator Tab 
 
     def _build_calculator_tab(self):
         parent = self.tab_calc
@@ -177,7 +173,8 @@ class AgeCalculatorApp:
                  font=FONTS["heading"], bg=COLORS["card"],
                  fg=COLORS["text"]).pack(anchor="w", padx=12, pady=(12, 4))
 
-        # ── Three separate fields: Day / Month / Year ──
+        #  Three separate fields: Day / Month / Year 
+        
         fields_row = tk.Frame(input_card, bg=COLORS["card"])
         fields_row.pack(fill="x", padx=12, pady=(6, 4))
 
@@ -254,7 +251,7 @@ class AgeCalculatorApp:
         )
         self.error_label.pack(anchor="w", padx=12, pady=(2, 8))
 
-        # ── Stats grid ──
+        #  Stats grid 
         self.stats_frame = tk.Frame(parent, bg=COLORS["bg"])
         self.stats_frame.pack(fill="x", padx=16, pady=4)
 
@@ -284,7 +281,7 @@ class AgeCalculatorApp:
                      font=FONTS["small"], bg=COLORS["card"],
                      fg=COLORS["subtext"]).pack(pady=(0, 10))
 
-        # ── Detail card ──
+        #  Detail card 
         self.detail_frame = tk.Frame(parent, bg=COLORS["card"])
         self.detail_frame.pack(fill="both", expand=True,
                                padx=16, pady=(4, 12))
@@ -317,7 +314,7 @@ class AgeCalculatorApp:
         self.detail_text.tag_configure("birthday",foreground=COLORS["warning"],
                                         font=("Segoe UI", 12, "bold"))
 
-    # ── History Tab ───────────────────────────────────────────
+    #  History Tab 
 
     def _build_history_tab(self):
         parent = self.tab_history
@@ -356,7 +353,7 @@ class AgeCalculatorApp:
 
         self._load_history()
 
-    # ── Clock ─────────────────────────────────────────────────
+    #  Clock 
 
     def _start_clock(self):
         def tick():
@@ -367,7 +364,7 @@ class AgeCalculatorApp:
             self.root.after(1000, tick)
         tick()
 
-    # ── Event Handlers ────────────────────────────────────────
+    #  Event Handlers 
 
     def _calculate(self):
         self.error_label.config(text="")
@@ -404,7 +401,7 @@ class AgeCalculatorApp:
             self.error_label.config(text="⚠  Year must be 1900 or later.")
             return
 
-        # ── Computations ──
+        #  Computations 
         age_years  = calculate_age_years(dob, today)
         age_months = calculate_total_months(dob, today)
         age_days   = calculate_total_days(dob, today)
@@ -420,7 +417,7 @@ class AgeCalculatorApp:
             "TODAY! 🎉" if is_birthday else f"{days_left}d"
         )
 
-        # ── Detail text ──
+        #  Detail text 
         self.detail_text.config(state="normal")
         self.detail_text.delete("1.0", "end")
 
@@ -451,7 +448,7 @@ class AgeCalculatorApp:
 
         self.detail_text.config(state="disabled")
 
-        # ── Save to history ──
+        #  Save to history 
         self._save_to_history(dob, age_years, age_days, zodiac_name)
         self._load_history()
 
@@ -467,7 +464,7 @@ class AgeCalculatorApp:
         self.detail_text.config(state="disabled")
         self.day_entry.focus()
 
-    # ── History Helpers ───────────────────────────────────────
+    #  History Helpers 
 
     def _save_to_history(self, dob: date, age: int, days: int, zodiac: str):
         record = (
@@ -507,9 +504,7 @@ class AgeCalculatorApp:
             self._load_history()
 
 
-# ──────────────────────────────────────────────
 #  ENTRY POINT
-# ──────────────────────────────────────────────
 
 def main():
     root = tk.Tk()
